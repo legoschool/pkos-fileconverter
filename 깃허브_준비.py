@@ -27,6 +27,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # 저장소에 포함할 것 (이 목록에 없는 것은 올라가지 않는다)
 INCLUDE = [
+    "pkos_app.py",
+    "desktop_core.py",
+    "build_windows.py",
+    "PKOS_실행.cmd",
+    "WINDOWS_사용법.md",
     "build_sample.py",
     "samples/README.md",
     "samples/taegeukgi.png",

@@ -32,6 +32,7 @@ import json
 import time
 import collections
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from pkos_readers import read_any, READERS, ReadResult
 from pkos_privacy import PrivacyFilter, Policy, PrivacyReport
@@ -92,7 +93,7 @@ class FolderConverter:
         for dp, dns, fns in os.walk(self.s.src_dir):
             dns[:] = [d for d in dns
                       if d not in self.s.exclude_dirs and not d.startswith(".")]
-            if os.path.abspath(dp).startswith(out_abs):
+            if Path(out_abs) == Path(dp).absolute() or Path(out_abs) in Path(dp).absolute().parents:
                 continue                                   # 결과 폴더는 제외
             for fn in fns:
                 if fn.startswith("~$") or fn.startswith("."):
@@ -156,7 +157,7 @@ class FolderConverter:
         )
 
     # ── 실행
-    def run(self, limit: int | None = None) -> dict:
+    def run(self, limit: int | None = None, progress=None, cancel=None) -> dict:
         t0 = time.time()
         os.makedirs(self.out, exist_ok=True)
         files = self.collect()
@@ -166,7 +167,13 @@ class FolderConverter:
         self.log(f"파일 {total}개를 변환합니다.\n")
 
         done = skipped = failed = 0
+        cancelled = False
         for i, src in enumerate(files, 1):
+            if cancel is not None and cancel.is_set():
+                cancelled = True
+                break
+            if progress is not None:
+                progress(i, total, src)
             dst = self.md_path_for(src)
 
             if self.s.skip_existing and os.path.exists(dst):
@@ -246,6 +253,7 @@ class FolderConverter:
                     self.log("  ⚠ 이 보고서에는 가리기 전 원본이 들어 있습니다. 공유하지 마세요.")
 
         return {"done": done, "skipped": skipped, "failed": failed,
+                "cancelled": cancelled,
                 "stats": dict(self.stats),
                 "개인정보": len(self.report.rows)}
 
