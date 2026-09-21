@@ -135,6 +135,45 @@ print("엔진 준비 완료!")
 print("다룰 수 있는 형식:", " ".join(SUPPORTED))'''), form=True))
 
 # ══════════════════════════════════════════════════════════════
+# 공개 샘플은 노트북에 포함하여 별도 다운로드 없이 실행한다.
+SAMPLE_PDF = os.path.join(HERE, "output", "pdf", "대한민국_태극기와_애국가.pdf")
+with open(SAMPLE_PDF, "rb") as f:
+    sample_b64 = base64.b64encode(f.read()).decode("ascii")
+cells.append(md(*L('''## 먼저 연습하기 · 태극기와 애국가 샘플
+
+준비하기 두 칸을 실행한 다음, 아래 **▶ 샘플 PDF로 변환 테스트**를 누르세요.
+폴더 경로 입력 없이 2쪽짜리 공개 샘플을 만들고, 2부와 같은 변환기로 마크다운을 생성합니다.
+
+- 원본: 태극기 이미지 + 애국가 1~4절과 후렴. 음원이나 악보는 포함하지 않습니다.
+- 결과: 제목과 가사 등 **글자만** 변환합니다. 현재 2부 PDF 변환기는 그림을 추출하지 않습니다.
+- 실행 후 변환 결과가 아래에 표시됩니다. 태극기는 왼쪽 📁에서 `PKOS_샘플/원본`의 PDF를 내려받아 확인하세요.
+- 원본과 결과는 코랩 임시 공간 `/content/PKOS_샘플`에 저장됩니다. 런타임이 삭제되면 사라지므로 보관하려면 파일을 다운로드하세요.
+- 이 공개 샘플은 원문 비교를 위해 개인정보 가리기를 끕니다. 개인 자료를 변환할 때는 2부의 개인정보 설정을 사용하세요.
+''')))
+cells.append(code(*L('''#@title ▶ 샘플 PDF로 변환 테스트
+import base64
+from pathlib import Path
+from IPython.display import display, Markdown
+from pkos_folder import FolderConverter, FolderSettings
+
+sample_root = Path("/content/PKOS_샘플")
+sample_src = sample_root / "원본"
+sample_out = sample_root / "변환결과"
+sample_src.mkdir(parents=True, exist_ok=True)
+sample_pdf = sample_src / "대한민국_태극기와_애국가.pdf"
+sample_pdf.write_bytes(base64.b64decode("''' + sample_b64 + '''"))
+sample_fc = FolderConverter(FolderSettings(
+    src_dir=str(sample_src), out_dir=str(sample_out),
+    skip_existing=False, 개인정보_가리기=False,
+))
+sample_result = sample_fc.run()
+print("샘플 PDF:", sample_pdf)
+print("변환 결과:", sample_out)
+for record in sample_fc.records:
+    result_path = sample_out / record["md"]
+    display(Markdown(result_path.read_text(encoding="utf-8")))
+'''), form=True))
+
 # 1부 · 블로그 백업 PDF
 # ══════════════════════════════════════════════════════════════
 cells.append(md(*L("""---

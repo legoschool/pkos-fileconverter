@@ -27,6 +27,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # 저장소에 포함할 것 (이 목록에 없는 것은 올라가지 않는다)
 INCLUDE = [
+    "build_sample.py",
+    "samples/README.md",
+    "samples/taegeukgi.png",
+    "output/pdf/대한민국_태극기와_애국가.pdf",
     "pkos_paths.py",
     "경로_복사_안내.md",
     "PKOS_변환기.ipynb",
@@ -74,6 +78,7 @@ def main():
         if not os.path.exists(src):
             missing.append(name)
             continue
+        os.makedirs(os.path.dirname(os.path.join(dest, name)), exist_ok=True)
         shutil.copy2(src, os.path.join(dest, name))
         copied.append(name)
 
