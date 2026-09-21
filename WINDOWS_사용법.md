@@ -1,6 +1,14 @@
 # PKOS Windows 앱 사용법
 
-## 실행
+## 다운로드와 실행
+1. [PC 앱 다운로드](https://github.com/legoschool/pkos-fileconverter/releases/download/v0.1.0/PKOS-Windows-v0.1.0.zip)를 누릅니다.
+2. 다운로드 폴더에서 `PKOS-Windows-v0.1.0.zip`을 오른쪽 클릭하고 **모두 압축 풀기**를 선택합니다.
+3. 압축을 푼 폴더 안의 **PKOS.exe**를 더블클릭합니다. ZIP 안에서 바로 실행하지 마세요.
+4. 앱에서 **샘플로 테스트**를 눌러 먼저 확인합니다.
+5. 내 자료는 원본 폴더와 결과 폴더를 지정한 뒤 **변환 시작**을 누릅니다.
+
+[다운로드 전체 보기](https://github.com/legoschool/pkos-fileconverter/releases/tag/v0.1.0) · [코랩 실행](https://colab.research.google.com/github/legoschool/pkos-fileconverter/blob/main/PKOS_%EB%B3%80%ED%99%98%EA%B8%B0.ipynb)
+
 배포된 `PKOS.exe`를 더블클릭합니다. 실행 파일에는 파이썬과 변환 엔진, 태극기·애국가 PDF 샘플이 포함되어 있어 별도 파이썬 설치가 필요 없습니다.
 
 소스 폴더에서는 `PKOS_실행.cmd`를 더블클릭해 설치된 파이썬으로 실행할 수도 있습니다. 먼저 아래의 의존성 설치 명령을 한 번 실행하세요.
