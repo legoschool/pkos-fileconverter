@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-PKEMS 구글 문서 가져오기
+PKOS 구글 문서 가져오기
 =========================
 구글 문서·시트·슬라이드는 '내 컴퓨터에 실체가 없는' 온라인 문서라서
 파일로는 읽을 수 없다. Drive API 로 내보내기(export) 해야 한다.
 
 코랩에서 쓰는 것을 전제로 한다 (별도 인증 설정 없이 본인 계정으로 동작).
 
-    from pkems_gdrive import GoogleDocs
+    from pkos_gdrive import GoogleDocs
 
     g = GoogleDocs()                     # 인증
     g.list_folder("1AbC...")             # 폴더 안 구글 문서 목록
-    g.export_folder("1AbC...", "/content/drive/MyDrive/PKEMS/구글문서")
+    g.export_folder("1AbC...", "/content/drive/MyDrive/PKOS/구글문서")
 
-PKEMS(개인지식경험관리체계) 프로젝트
+PKOS(개인지식운영체계) 프로젝트
 """
 
 from __future__ import annotations
@@ -152,7 +152,7 @@ class GoogleDocs:
     def _office_to_md(data: bytes, target: str) -> str:
         """xlsx/pptx 원본을 이미 검증된 읽기 모듈로 마크다운으로 옮긴다."""
         import tempfile
-        from pkems_readers import read_xlsx, read_pptx
+        from pkos_readers import read_xlsx, read_pptx
 
         suffix = ".xlsx" if target == XLSX_MIME else ".pptx"
         tmp = tempfile.NamedTemporaryFile(suffix=suffix, delete=False)

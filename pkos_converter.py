@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-PKEMS 블로그 PDF -> 마크다운 변환 엔진
+PKOS 블로그 PDF -> 마크다운 변환 엔진
 =========================================
 네이버 블로그 백업 PDF(전체보기 인쇄본)를 AI가 읽기 좋은 .md 파일로 변환합니다.
 
 특정 블로그에 종속되지 않도록, PDF 안에서 블로그 주소/푸터 형식을 '자동 감지'합니다.
 
 사용 예:
-    from pkems_converter import Converter, Settings
+    from pkos_converter import Converter, Settings
 
     conv = Converter(Settings(
         pdf_dir  = "/content/drive/MyDrive/블로그백업",
@@ -16,7 +16,7 @@ PKEMS 블로그 PDF -> 마크다운 변환 엔진
     ))
     conv.run()
 
-만든 이: 이운희 · PKEMS(개인지식경험관리체계) 프로젝트
+만든 이: 이운희 · PKOS(개인지식운영체계) 프로젝트
 """
 
 from __future__ import annotations

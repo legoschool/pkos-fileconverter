@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-PKEMS 폴더 일괄 변환기
+PKOS 폴더 일괄 변환기
 =======================
 폴더 하나를 통째로 훑어서, 안에 있는 모든 문서를 마크다운(.md)으로 바꾼다.
 한글(.hwp/.hwpx), 워드, 파워포인트, 엑셀, PDF, HTML, 텍스트를 모두 다룬다.
 
-    from pkems_folder import FolderConverter, FolderSettings
+    from pkos_folder import FolderConverter, FolderSettings
 
     fc = FolderConverter(FolderSettings(
         src_dir = "/content/drive/MyDrive/01_학교",
-        out_dir = "/content/drive/MyDrive/PKEMS/변환결과",
+        out_dir = "/content/drive/MyDrive/PKOS/변환결과",
     ))
     fc.scan()      # 먼저 무엇이 몇 개 있는지 확인
     fc.run()       # 변환
@@ -20,7 +20,7 @@ PKEMS 폴더 일괄 변환기
     - 한 파일이 실패해도 전체가 멈추지 않는다 (오류는 따로 기록)
     - 변환 결과 목록(INDEX.md, _files.json)을 만든다
 
-PKEMS(개인지식경험관리체계) 프로젝트
+PKOS(개인지식운영체계) 프로젝트
 """
 
 from __future__ import annotations
@@ -33,8 +33,8 @@ import time
 import collections
 from dataclasses import dataclass, field
 
-from pkems_readers import read_any, READERS, ReadResult
-from pkems_privacy import PrivacyFilter, Policy, PrivacyReport
+from pkos_readers import read_any, READERS, ReadResult
+from pkos_privacy import PrivacyFilter, Policy, PrivacyReport
 
 
 # ─────────────────────────────────────────────────────────────

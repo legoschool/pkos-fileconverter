@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-PKEMS 개인정보 자동 필터
+PKOS 개인정보 자동 필터
 =========================
 문서에서 개인정보를 찾아내 원하는 방식으로 가린다.
 
-    from pkems_privacy import PrivacyFilter, Policy
+    from pkos_privacy import PrivacyFilter, Policy
 
     pf = PrivacyFilter()                      # 기본 정책
     masked, hits = pf.mask(text)
@@ -26,7 +26,7 @@ PKEMS 개인정보 자동 필터
 ⚠️ 자동 탐지는 완벽하지 않다. 특히 사람 이름은 놓치거나 잘못 잡을 수 있으므로,
    공개 전에는 반드시 사람이 최종 확인해야 한다.
 
-PKEMS(개인지식경험관리체계) 프로젝트
+PKOS(개인지식운영체계) 프로젝트
 """
 
 from __future__ import annotations

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-PKEMS 문서 읽기 모듈
+PKOS 문서 읽기 모듈
 =====================
 여러 형식의 문서를 '마크다운 본문'으로 읽어들인다.
 
@@ -18,14 +18,14 @@ PKEMS 문서 읽기 모듈
     .gdoc/.gsheet/.gslides  구글 문서 바로가기 (문서 ID만 읽음)
 
 사용법
-    from pkems_readers import read_any, SUPPORTED
+    from pkos_readers import read_any, SUPPORTED
     doc = read_any("보고서.hwp")
     print(doc.text)
 
 각 읽기 함수는 ReadResult 를 돌려준다. 실패해도 예외를 던지지 않고
 ok=False 와 error 메시지를 담아 돌려주므로, 일괄 변환이 중단되지 않는다.
 
-PKEMS(개인지식경험관리체계) 프로젝트
+PKOS(개인지식운영체계) 프로젝트
 """
 
 from __future__ import annotations
@@ -576,7 +576,7 @@ def read_text(path: str) -> ReadResult:
 
 
 # ─────────────────────────────────────────────────────────────
-# PDF (일반 문서용 · 블로그 백업은 pkems_converter 를 사용)
+# PDF (일반 문서용 · 블로그 백업은 pkos_converter 를 사용)
 # ─────────────────────────────────────────────────────────────
 def read_pdf(path: str) -> ReadResult:
     try:
@@ -665,7 +665,7 @@ def read_gshortcut(path: str) -> ReadResult:
 
     구글 문서·시트·슬라이드는 '내 컴퓨터에 실체가 없는' 온라인 문서다.
     윈도우 드라이브 앱에서는 파일로 열리지 않는 경우가 많으므로(가상 파일),
-    실제 내용은 Drive API 로 내보내야 한다(pkems_gdrive.export_google_doc).
+    실제 내용은 Drive API 로 내보내야 한다(pkos_gdrive.export_google_doc).
     """
     ext = os.path.splitext(path)[1].lower()
     kind = _G_KIND.get(ext, "구글문서")
