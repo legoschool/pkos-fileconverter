@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-pkems_converter.py 를 읽어서, 배포용 코랩 노트북(PKEMS_변환기.ipynb)을 생성한다.
+pkos_converter.py 를 읽어서, 배포용 코랩 노트북(PKOS_변환기.ipynb)을 생성한다.
 엔진을 고친 뒤 이 스크립트를 다시 실행하면 노트북도 최신 상태가 된다.
 
     python build_notebook.py
@@ -10,14 +10,15 @@ import io, os, json, base64
 HERE = os.path.dirname(os.path.abspath(__file__))
 # 노트북에 함께 실어 보낼 엔진 파일들
 ENGINE_FILES = [
-    "pkems_converter.py",   # 블로그 백업 PDF -> md
-    "pkems_readers.py",     # 한글/워드/PPT/엑셀/HTML 읽기
-    "pkems_privacy.py",     # 개인정보 자동 가리기
-    "pkems_folder.py",      # 폴더 통째로 변환
-    "pkems_gdrive.py",      # 구글 문서 내보내기
+    "pkos_paths.py",
+    "pkos_converter.py",   # 블로그 백업 PDF -> md
+    "pkos_readers.py",     # 한글/워드/PPT/엑셀/HTML 읽기
+    "pkos_privacy.py",     # 개인정보 자동 가리기
+    "pkos_folder.py",      # 폴더 통째로 변환
+    "pkos_gdrive.py",      # 구글 문서 내보내기
 ]
-ENGINE = os.path.join(HERE, "pkems_converter.py")   # 하위호환
-OUT = os.path.join(HERE, "PKEMS_변환기.ipynb")
+ENGINE = os.path.join(HERE, "pkos_converter.py")   # 하위호환
+OUT = os.path.join(HERE, "PKOS_변환기.ipynb")
 
 
 def md(*lines):
@@ -41,7 +42,7 @@ engines = {}
 for name in ENGINE_FILES:
     with io.open(os.path.join(HERE, name), encoding="utf-8") as f:
         engines[name] = f.read()
-engine_src = engines["pkems_converter.py"]          # 하위호환
+engine_src = engines["pkos_converter.py"]          # 하위호환
 
 cells = []
 
@@ -49,7 +50,7 @@ cells.append(md(*L("""# 📚 내 기록 → 마크다운 변환기
 
 흩어져 있는 내 지식·경험을 **AI가 읽기 좋은 마크다운(.md)** 으로 모읍니다.
 
-> PKEMS(개인지식경험관리체계) 프로젝트
+> PKOS(개인지식운영체계) 프로젝트
 
 ### 이 노트북으로 할 수 있는 것
 
@@ -121,18 +122,58 @@ for _name, _b64 in _ENGINES.items():
     pathlib.Path(_name).write_bytes(base64.b64decode(_b64))
 sys.path.insert(0, ".")
 
-import pkems_converter, pkems_readers, pkems_privacy, pkems_folder
-for _m in (pkems_converter, pkems_readers, pkems_privacy, pkems_folder):
+import pkos_converter, pkos_readers, pkos_privacy, pkos_folder, pkos_paths
+for _m in (pkos_converter, pkos_readers, pkos_privacy, pkos_folder, pkos_paths):
     importlib.reload(_m)
-from pkems_converter import Converter, Settings, inspect
-from pkems_readers import read_any, SUPPORTED
-from pkems_privacy import PrivacyFilter, Policy, preview as 개인정보_미리보기
-from pkems_folder import FolderConverter, FolderSettings
+from pkos_converter import Converter, Settings, inspect
+from pkos_readers import read_any, SUPPORTED
+from pkos_privacy import PrivacyFilter, Policy, preview as 개인정보_미리보기
+from pkos_folder import FolderConverter, FolderSettings
+from pkos_paths import drive_path
 
 print("엔진 준비 완료!")
 print("다룰 수 있는 형식:", " ".join(SUPPORTED))'''), form=True))
 
 # ══════════════════════════════════════════════════════════════
+# 공개 샘플은 노트북에 포함하여 별도 다운로드 없이 실행한다.
+SAMPLE_PDF = os.path.join(HERE, "output", "pdf", "대한민국_태극기와_애국가.pdf")
+with open(SAMPLE_PDF, "rb") as f:
+    sample_b64 = base64.b64encode(f.read()).decode("ascii")
+cells.append(md(*L('''## 먼저 연습하기 · 태극기와 애국가 샘플
+
+준비하기 두 칸을 실행한 다음, 아래 **▶ 샘플 PDF로 변환 테스트**를 누르세요.
+폴더 경로 입력 없이 2쪽짜리 공개 샘플을 만들고, 2부와 같은 변환기로 마크다운을 생성합니다.
+
+- 원본: 태극기 이미지 + 애국가 1~4절과 후렴. 음원이나 악보는 포함하지 않습니다.
+- 결과: 제목과 가사 등 **글자만** 변환합니다. 현재 2부 PDF 변환기는 그림을 추출하지 않습니다.
+- 실행 후 변환 결과가 아래에 표시됩니다. 태극기는 왼쪽 📁에서 `PKOS_샘플/원본`의 PDF를 내려받아 확인하세요.
+- 원본과 결과는 코랩 임시 공간 `/content/PKOS_샘플`에 저장됩니다. 런타임이 삭제되면 사라지므로 보관하려면 파일을 다운로드하세요.
+- 이 공개 샘플은 원문 비교를 위해 개인정보 가리기를 끕니다. 개인 자료를 변환할 때는 2부의 개인정보 설정을 사용하세요.
+''')))
+cells.append(code(*L('''#@title ▶ 샘플 PDF로 변환 테스트
+import base64
+from pathlib import Path
+from IPython.display import display, Markdown
+from pkos_folder import FolderConverter, FolderSettings
+
+sample_root = Path("/content/PKOS_샘플")
+sample_src = sample_root / "원본"
+sample_out = sample_root / "변환결과"
+sample_src.mkdir(parents=True, exist_ok=True)
+sample_pdf = sample_src / "대한민국_태극기와_애국가.pdf"
+sample_pdf.write_bytes(base64.b64decode("''' + sample_b64 + '''"))
+sample_fc = FolderConverter(FolderSettings(
+    src_dir=str(sample_src), out_dir=str(sample_out),
+    skip_existing=False, 개인정보_가리기=False,
+))
+sample_result = sample_fc.run()
+print("샘플 PDF:", sample_pdf)
+print("변환 결과:", sample_out)
+for record in sample_fc.records:
+    result_path = sample_out / record["md"]
+    display(Markdown(result_path.read_text(encoding="utf-8")))
+'''), form=True))
+
 # 1부 · 블로그 백업 PDF
 # ══════════════════════════════════════════════════════════════
 cells.append(md(*L("""---
@@ -208,7 +249,7 @@ if raw:
             print(f"ID로 찾기 실패({e}). 아래 '경로' 방식을 써주세요.")
 
 if PDF_DIR is None:
-    PDF_DIR = os.path.join(MYDRIVE, 내_드라이브_경로.strip().strip("/"))
+    PDF_DIR = drive_path(내_드라이브_경로)
 
 print()
 if os.path.isdir(PDF_DIR):
@@ -320,15 +361,17 @@ cells.append(md(*L("""---
 > ⚠️ **개인정보 주의** — 업무 문서에는 이름·연락처·계좌 같은 정보가 들어있을 수 있습니다.
 > 변환 결과를 웹에 올릴 때는 **반드시 선별**하세요.""")))
 
+cells.append(md(*L(open(os.path.join(HERE, "경로_복사_안내.md"), encoding="utf-8").read())))
+
 cells.append(code(*L('''#@title ▶ 폴더 훑어보기 (변환 없이 현황만) { display-mode: "form" }
-#@markdown ### 변환할 폴더 (내 드라이브 안 경로)
+#@markdown ### 변환할 폴더 (코랩에서 경로 복사 후 그대로 붙여넣기)
 문서폴더 = "01_학교"  #@param {type:"string"}
 #@markdown ### 결과를 저장할 폴더
-결과폴더 = "PKEMS/변환결과"  #@param {type:"string"}
+결과폴더 = "PKOS/변환결과"  #@param {type:"string"}
 
 import os
-SRC_DIR = os.path.join("/content/drive/MyDrive", 문서폴더.strip().strip("/"))
-DST_DIR = os.path.join("/content/drive/MyDrive", 결과폴더.strip().strip("/"))
+SRC_DIR = drive_path(문서폴더)
+DST_DIR = drive_path(결과폴더)
 
 if not os.path.isdir(SRC_DIR):
     print(f"⚠ 폴더를 찾을 수 없습니다: {SRC_DIR}")
@@ -389,7 +432,7 @@ cells.append(code(*L('''#@title ▶ 파일 하나로 미리보기 { display-mode
 
 import os
 
-경로 = os.path.join("/content/drive/MyDrive", 확인할_파일.strip().strip("/")) \\
+경로 = drive_path(확인할_파일) \\
        if 확인할_파일.strip() else None
 
 if 경로 is None:
@@ -452,9 +495,9 @@ cells.append(code(*L('''#@title ▶ ① 구글 문서 목록 보기 { display-mo
 #@markdown ### 하위 폴더까지 찾을까요?
 하위폴더_포함 = True  #@param {type:"boolean"}
 
-import importlib, pkems_gdrive
-importlib.reload(pkems_gdrive)
-from pkems_gdrive import GoogleDocs
+import importlib, pkos_gdrive
+importlib.reload(pkos_gdrive)
+from pkos_gdrive import GoogleDocs
 
 if not 구글_폴더.strip():
     print("폴더 링크나 ID를 입력해주세요.")
@@ -464,10 +507,10 @@ else:
 
 cells.append(code(*L('''#@title ▶ ② 구글 문서 가져오기 { display-mode: "form" }
 #@markdown ### 저장할 폴더 (내 드라이브 안 경로)
-구글_저장폴더 = "PKEMS/구글문서"  #@param {type:"string"}
+구글_저장폴더 = "PKOS/구글문서"  #@param {type:"string"}
 
 import os
-G_OUT = os.path.join("/content/drive/MyDrive", 구글_저장폴더.strip().strip("/"))
+G_OUT = drive_path(구글_저장폴더)
 결과 = gd.export_folder(구글_폴더, G_OUT, recursive=하위폴더_포함)
 print()
 print("저장 위치 :", G_OUT)'''), form=True))
@@ -488,13 +531,13 @@ cells.append(md(*L("""---
 변환된 `.md` 파일들은 그대로 **나만의 지식창고**가 됩니다.
 Claude·ChatGPT 같은 AI에게 폴더째 물어보거나, 웹 뷰어로 만들어 검색할 수 있습니다.
 
-*PKEMS · 개인지식경험관리체계*""")))
+*PKOS · 개인지식운영체계*""")))
 
 nb = {
     "nbformat": 4,
     "nbformat_minor": 0,
     "metadata": {
-        "colab": {"name": "PKEMS_변환기.ipynb", "provenance": [], "toc_visible": True},
+        "colab": {"name": "PKOS_변환기.ipynb", "provenance": [], "toc_visible": True},
         "kernelspec": {"name": "python3", "display_name": "Python 3"},
         "language_info": {"name": "python"},
     },

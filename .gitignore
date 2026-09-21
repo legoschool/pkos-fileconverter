@@ -35,3 +35,7 @@ desktop.ini
 
 # 노트북 실행 흔적
 .ipynb_checkpoints/
+
+# 배포용 공개 샘플 PDF만 예외로 포함
+!output/pdf/대한민국_태극기와_애국가.pdf
+tmp/

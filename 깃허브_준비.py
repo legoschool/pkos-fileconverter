@@ -8,8 +8,8 @@ README 의 'Open In Colab' 배지 주소를 실제 저장소 주소로 바꿔주
     python 깃허브_준비.py <깃허브아이디> <저장소이름> [만들_위치]
 
 예)
-    python 깃허브_준비.py woonhee pkems-converter
-    python 깃허브_준비.py woonhee pkems-converter "C:/Users/나/Documents"
+    python 깃허브_준비.py woonhee pkos-converter
+    python 깃허브_준비.py woonhee pkos-converter "C:/Users/나/Documents"
 
 왜 드라이브 밖에 만드나
     구글 드라이브 동기화 폴더 안에서 git 을 쓰면 .git 내부 파일이
@@ -27,12 +27,18 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # 저장소에 포함할 것 (이 목록에 없는 것은 올라가지 않는다)
 INCLUDE = [
-    "PKEMS_변환기.ipynb",
-    "pkems_converter.py",
-    "pkems_readers.py",
-    "pkems_privacy.py",
-    "pkems_folder.py",
-    "pkems_gdrive.py",
+    "build_sample.py",
+    "samples/README.md",
+    "samples/taegeukgi.png",
+    "output/pdf/대한민국_태극기와_애국가.pdf",
+    "pkos_paths.py",
+    "경로_복사_안내.md",
+    "PKOS_변환기.ipynb",
+    "pkos_converter.py",
+    "pkos_readers.py",
+    "pkos_privacy.py",
+    "pkos_folder.py",
+    "pkos_gdrive.py",
     "build_notebook.py",
     "깃허브_준비.py",
     "README.md",
@@ -41,7 +47,7 @@ INCLUDE = [
     "requirements.txt",
 ]
 
-NOTEBOOK = "PKEMS_변환기.ipynb"
+NOTEBOOK = "PKOS_변환기.ipynb"
 
 
 def make_badge(user: str, repo: str, branch: str = "main") -> str:
@@ -72,6 +78,7 @@ def main():
         if not os.path.exists(src):
             missing.append(name)
             continue
+        os.makedirs(os.path.dirname(os.path.join(dest, name)), exist_ok=True)
         shutil.copy2(src, os.path.join(dest, name))
         copied.append(name)
 

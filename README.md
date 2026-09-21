@@ -1,6 +1,6 @@
 # 내 기록 → 마크다운 변환기
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/legoschool/pkmes-fileconverter/blob/main/PKEMS_%EB%B3%80%ED%99%98%EA%B8%B0.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/legoschool/pkems-fileconverter/blob/main/PKOS_%EB%B3%80%ED%99%98%EA%B8%B0.ipynb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **블로그·한글·워드·PPT·엑셀·구글문서**에 흩어진 내 기록을,
@@ -8,7 +8,7 @@ AI가 읽기 좋은 **마크다운(.md)** 으로 한 번에 모아주는 도구�
 
 설치도, 회원가입도, 서버도 없습니다. **위 배지를 누르면 바로 시작**합니다.
 
-> PKEMS(개인지식경험관리체계) 프로젝트
+> PKOS(개인지식운영체계) 프로젝트
 
 ---
 
@@ -44,12 +44,33 @@ AI 시대에는 **AI가 가장 잘 읽어낼 수 있는 형식**으로 바꾸어
 2. 맨 위 **준비하기** 두 칸 실행 → 구글 드라이브 연결 허용
 3. 필요한 부(1·2·3)로 가서 **▶ 버튼**을 순서대로 클릭
 
-- 폴더는 **링크 / 폴더 ID / 드라이브 내 경로** 아무 방식으로나 지정
+- **1부**: 폴더 링크·ID 또는 경로 / **2부**: 폴더 경로 / **3부**: 폴더 링크·ID
+- **2부 경로 입력 상세 안내:** [코랩에서 폴더 경로 복사하기](경로_복사_안내.md)
+- 새 PKOS 버전은 코랩에서 복사한 전체 경로와 Windows 내 드라이브 경로도 처리합니다.
 - 중간에 끊겨도 다시 누르면 **이어서** 진행
 - 한 파일이 실패해도 나머지는 계속 변환
 
 > **드라이브 연결 승인 창은 반드시 직접 클릭**해야 합니다.
 > 브라우저가 팝업을 막으면 연결이 진행되지 않습니다.
+
+### 내 파일 없이 샘플로 먼저 테스트하기
+
+1. 새 PKOS 노트북에서 **준비하기 두 칸**을 실행합니다.
+2. **먼저 연습하기 → ▶ 샘플 PDF로 변환 테스트**를 누릅니다. 경로 입력은 필요 없습니다.
+3. 태극기와 애국가 1~4절·후렴이 들어 있는 2쪽 PDF가 생성되고, 2부와 같은 변환기로 마크다운으로 바뀝니다.
+4. 셀 아래에서 가사가 읽히는지 확인합니다. 원본은 왼쪽 📁의 `PKOS_샘플/원본`, 결과는 `PKOS_샘플/변환결과`에 있습니다. 파일 우클릭 → 다운로드로 저장할 수 있습니다.
+
+[샘플 PDF 보기](output/pdf/대한민국_태극기와_애국가.pdf) · [샘플 출처와 재생성 방법](samples/README.md)
+
+현재 2부 PDF 변환은 **글자만 추출**하므로 태극기 그림은 결과 마크다운에 포함되지 않습니다. 샘플은 코랩 임시 공간에 저장되며 런타임 삭제 시 사라집니다. 공개 샘플의 원문 비교를 위해 샘플 셀만 개인정보 가리기를 끕니다.
+
+### 폴더 경로 입력 예시
+
+문서폴더: `/content/drive/MyDrive/00_개인지식운영체계(PKOS)/01_외부 정보`
+
+결과폴더: `PKOS/변환결과`
+
+기존에 복사해둔 PKEMS 노트북은 자동 업데이트되지 않습니다. 위 배지로 새 PKOS 노트북을 열고 준비하기 두 셀부터 실행하세요.
 
 ### 네이버 블로그 백업 방법 (1부를 쓸 경우)
 
@@ -150,12 +171,12 @@ AI 시대에는 **AI가 가장 잘 읽어낼 수 있는 형식**으로 바꾸어
 
 | 파일 | 역할 |
 |------|------|
-| `PKEMS_변환기.ipynb` | **배포용 코랩 노트북** — 엔진이 통째로 들어 있어 이 파일 하나로 동작 |
-| `pkems_converter.py` | 블로그 백업 PDF → md (글 단위 분리) |
-| `pkems_readers.py` | 형식별 읽기 (한글·워드·PPT·엑셀·HTML…) |
-| `pkems_privacy.py` | 개인정보 탐지·가리기·보고서 |
-| `pkems_folder.py` | 폴더 일괄 변환 |
-| `pkems_gdrive.py` | 구글 문서 내보내기 |
+| `PKOS_변환기.ipynb` | **배포용 코랩 노트북** — 엔진이 통째로 들어 있어 이 파일 하나로 동작 |
+| `pkos_converter.py` | 블로그 백업 PDF → md (글 단위 분리) |
+| `pkos_readers.py` | 형식별 읽기 (한글·워드·PPT·엑셀·HTML…) |
+| `pkos_privacy.py` | 개인정보 탐지·가리기·보고서 |
+| `pkos_folder.py` | 폴더 일괄 변환 |
+| `pkos_gdrive.py` | 구글 문서 내보내기 |
 | `build_notebook.py` | 엔진들을 노트북에 다시 심는 스크립트 |
 
 > **엔진을 고쳤으면 반드시 실행하세요.** 노트북 안에 엔진이 복사되어 들어가므로 자동 반영되지 않습니다.
@@ -173,13 +194,13 @@ pip install -r requirements.txt
 
 ```python
 # 블로그 백업 PDF
-from pkems_converter import Converter, Settings, inspect
+from pkos_converter import Converter, Settings, inspect
 inspect("백업/1_100.pdf")                      # 먼저 확인
 Converter(Settings(pdf_dir="백업", out_dir="백업/md")).run()
 
 # 문서 폴더 통째로
-from pkems_folder import FolderConverter, FolderSettings
-from pkems_privacy import Policy
+from pkos_folder import FolderConverter, FolderSettings
+from pkos_privacy import Policy
 fc = FolderConverter(FolderSettings(
     src_dir="문서폴더", out_dir="변환결과",
     개인정보_정책=Policy(이름="부분가림", 계좌번호="가림"),
@@ -189,7 +210,7 @@ fc.run(limit=30)   # 30개만 시험
 fc.run()           # 전체
 
 # 파일 하나만
-from pkems_readers import read_any
+from pkos_readers import read_any
 r = read_any("보고서.hwp")
 print(r.ok, r.kind, r.chars)
 ```
