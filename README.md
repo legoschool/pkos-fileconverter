@@ -1,14 +1,28 @@
 # 내 기록 → 마크다운 변환기
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/legoschool/pkems-fileconverter/blob/main/PKOS_%EB%B3%80%ED%99%98%EA%B8%B0.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/legoschool/pkos-fileconverter/blob/main/PKOS_%EB%B3%80%ED%99%98%EA%B8%B0.ipynb)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **블로그·한글·워드·PPT·엑셀·구글문서**에 흩어진 내 기록을,
 AI가 읽기 좋은 **마크다운(.md)** 으로 한 번에 모아주는 도구입니다.
 
-설치도, 회원가입도, 서버도 없습니다. **위 배지를 누르면 바로 시작**합니다.
+**코랩은 브라우저에서, PC 앱은 Windows에서 실행합니다.** 아래에서 원하는 방식을 선택하세요.
 
 > PKOS(개인지식운영체계) 프로젝트
+
+## 바로 시작하기
+
+| 사용 방식 | 바로가기 | 시작 방법 |
+|---|---|---|
+| **Windows PC 앱** | **[PC 앱 다운로드 (ZIP)](https://github.com/legoschool/pkos-fileconverter/releases/download/v0.1.0/PKOS-Windows-v0.1.0.zip)** | 압축 풀기 → `PKOS.exe` 더블클릭 |
+| **설치 없이 코랩** | **[코랩 실행하기](https://colab.research.google.com/github/legoschool/pkos-fileconverter/blob/main/PKOS_%EB%B3%80%ED%99%98%EA%B8%B0.ipynb)** | 준비하기 두 칸 → 샘플 테스트 또는 내 폴더 변환 |
+| **파이썬 소스** | [소스 다운로드](https://github.com/legoschool/pkos-fileconverter/archive/refs/tags/v0.1.0.zip) | 압축 풀기 → 의존성 설치 → `PKOS_실행.cmd` |
+
+[다운로드 전체 보기·변경 내역](https://github.com/legoschool/pkos-fileconverter/releases/tag/v0.1.0) · [PC 사용 설명서](WINDOWS_사용법.md) · [폴더 경로 복사 안내](경로_복사_안내.md)
+
+**PC 버전 안내:** Windows 64비트용 초기 배포판입니다. 파이썬은 실행 파일에 포함되어 있습니다. 개발 PC에서는 Windows 애플리케이션 제어 정책(오류 4551)으로 EXE 실행이 차단되어, EXE 실행 검증은 완료하지 못했습니다. 파이썬 소스 앱의 변환·미리보기 테스트는 통과했습니다. 실행이 차단되는 환경에서는 보안 설정을 변경하지 말고 코랩을 이용하거나 관리자에게 확인하세요.
+
+
 
 ---
 
@@ -37,6 +51,12 @@ AI 시대에는 **AI가 가장 잘 읽어낼 수 있는 형식**으로 바꾸어
 **한글 `.hwp`** 는 한컴오피스 없이, 외부 프로그램 없이 순수 파이썬으로 읽습니다.
 
 ---
+
+## PC에서 창 프로그램으로 사용하기
+
+`PKOS.exe`를 실행해 원본 경로를 붙여넣고 결과 폴더를 선택하면 됩니다. 샘플 테스트, 진행 상태, 중지, 결과 미리보기와 폴더 열기를 제공합니다.
+
+[Windows 앱 상세 사용법](WINDOWS_사용법.md) · 소스로 실행: `python pkos_app.py`
 
 ## 쓰는 법
 
